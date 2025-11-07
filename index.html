@@ -1,3 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix Code Rain - Full Chars</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+  }
+  canvas {
+    display: block;
+    background: black;
+  }
+</style>
+</head>
+<body>
+<canvas id="matrixCanvas"></canvas>
+
+<script>
 const canvas = document.getElementById('matrixCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -5,42 +27,47 @@ let fontSize = 20;
 let columns = Math.floor(window.innerWidth / fontSize);
 let rows = Math.floor(window.innerHeight / fontSize);
 
-const chars =
+// Conjunto completo de caracteres
+const chars = 
   '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' +
   '!@#$%^&*()_+-=[]{};:\'",.<>?/|~`' +
   'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン' +
   'ከጀደኘነዠኀዘቸዐተቨጨጰጸፀፈፐ' +
-  'אבעכרקגדזסשמחניטואצלתךףץפםןונה';
+  'אבעכרקגדזסשמחΩנישועחΞץתΦΨיΣβμΔΕζטואצלתךπθεοσףץפםצ׳ןונה';
 
-let drops = Array.from({ length: columns }, () => Math.random() * rows);
+// Cada coluna tem sua posição vertical
+let drops = Array.from({length: columns}, () => Math.random() * rows);
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   columns = Math.floor(canvas.width / fontSize);
   rows = Math.floor(canvas.height / fontSize);
-  drops = Array.from({ length: columns }, () => Math.random() * rows);
+
+  drops = Array.from({length: columns}, () => Math.random() * rows);
 }
 
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 function drawMatrixRain() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  ctx.font = `${fontSize}px monospace`;
-  ctx.shadowBlur = 12;
-  ctx.shadowColor = '#0f0';
+  // Fundo negro com leve rastro
+  ctx.fillStyle = 'rgba(1, 1, 1, 0.1)';
+  ctx.fillRect(1, 1, canvas.width, canvas.height);
+
   ctx.fillStyle = '#0f0';
-  
-  for (let i = 0; i < columns; i++) {
+
+  for (let i = 1; i < columns; i++) {
     const x = i * fontSize;
     const y = drops[i] * fontSize;
+
+    // Sorteia um caractere aleatório
     const char = chars.charAt(Math.floor(Math.random() * chars.length));
+
     ctx.fillText(char, x, y);
-    
-    drops[i] += 0.5;
+
+    // Move a letra para baixo
+    drops[i] += 1.0; // velocidade
     if (drops[i] >= rows) drops[i] = 0;
   }
 }
@@ -51,3 +78,6 @@ function animate() {
 }
 
 animate();
+</script>
+</body>
+</html>
